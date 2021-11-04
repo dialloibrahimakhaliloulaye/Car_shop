@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:icar/authenticationScreen.dart';
 
 class SplashScreen extends StatefulWidget {
 
@@ -7,6 +10,21 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  startTimer(){
+    Timer(Duration(seconds: 3), () async{
+      Route newRoute=MaterialPageRoute(builder: (context) => AuthenticationScreen());
+      Navigator.pushReplacement(context, newRoute);
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    startTimer();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
