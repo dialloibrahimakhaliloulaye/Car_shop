@@ -11,17 +11,11 @@ class CustomTextField extends StatelessWidget {
     : super(key: key);
   @override
   Widget build(BuildContext context) {
-    double _screenWidth = MediaQuery
-    .of(context)
-    .size
-    .width,
-    _screenHeight = MediaQuery
-    .of(context)
-    .size
-    .width;
+    double _screenWidth = MediaQuery.of(context).size.width,
+           _screenHeight = MediaQuery.of(context).size.width;
 
     return Container(
-      width: _screenWidth * 0.5,
+      width: _screenWidth * 0.8,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
