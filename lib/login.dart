@@ -60,9 +60,8 @@ class _LoginState extends State<Login> {
                 },
                 child: Text("Connexion", style: TextStyle(color: Colors.white),),
               ),
-
             ),
-            SizedBox(height: 50,)
+            SizedBox(height: 50,),
           ],
         ),
       ),
