@@ -1,5 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:icar/dialogBox/errorDialog.dart';
+import 'package:icar/homeScreen.dart';
 import 'package:icar/widgets/customTextField.dart';
+import 'package:icar/widgets/loadingDialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Login extends StatefulWidget {
 
@@ -12,6 +17,7 @@ class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final TextEditingController _emailcontroller = TextEditingController();
   final TextEditingController _passwordcontroller = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +62,14 @@ class _LoginState extends State<Login> {
               width: _screenWidth*0.5,
               child: ElevatedButton(
                 onPressed: (){
-
+                  _emailcontroller.text.isNotEmpty && _passwordcontroller.text.isNotEmpty
+                      ? _login() : showDialog(
+                      context: context,
+                      builder: (con){
+                        return ErrorDialog(
+                          message: "Veuillez saisir correctement le formulaire",
+                        );
+                      });
                 },
                 child: Text("Connexion", style: TextStyle(color: Colors.white),),
               ),
@@ -67,4 +80,38 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
+  void _login() async{
+    showDialog(context: context, builder: (con){
+      return LoadingDialog(
+        message: 'Patienter SVP',
+      );
+    });
+    User currentUser;
+
+    await _auth.signInWithEmailAndPassword(
+        email: _emailcontroller.text.trim(),
+        password: _passwordcontroller.text.trim(),
+    ).then((auth){
+      currentUser = auth.user;
+    }).catchError((error){
+      Navigator.pop(context);
+      showDialog(
+          context: context,
+          builder: (con){
+            return ErrorDialog(
+              message: error.message.toString(),
+            );
+          });
+    });
+    if(currentUser != null){
+      Navigator.pop(context);
+      Route newRoute = MaterialPageRoute(builder: (context) => HomeScreen());
+      Navigator.pushReplacement(context, newRoute);
+    }
+    else {
+      print("error");
+    }
+  }
+
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:icar/dialogBox/errorDialog.dart';
-//import 'package:icar/dialogBox/errorDialog.dart';
 import 'package:icar/homeScreen.dart';
 import 'package:icar/widgets/customTextField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
