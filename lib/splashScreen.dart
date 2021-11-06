@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:icar/authenticationScreen.dart';
+import 'package:icar/homeScreen.dart';
 
 class SplashScreen extends StatefulWidget {
 
@@ -13,8 +15,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   startTimer(){
     Timer(Duration(seconds: 3), () async{
-      Route newRoute=MaterialPageRoute(builder: (context) => AuthenticationScreen());
-      Navigator.pushReplacement(context, newRoute);
+      if(FirebaseAuth.instance.currentUser != null){
+        Route newRoute=MaterialPageRoute(builder: (context) => HomeScreen());
+        Navigator.pushReplacement(context, newRoute);
+      }
+      else {
+        Route newRoute = MaterialPageRoute(
+            builder: (context) => AuthenticationScreen());
+        Navigator.pushReplacement(context, newRoute);
+      }
     });
   }
 
