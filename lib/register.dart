@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:icar/dialogBox/errorDialog.dart';
+//import 'package:icar/dialogBox/errorDialog.dart';
+import 'package:icar/homeScreen.dart';
 import 'package:icar/widgets/customTextField.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'globalVar.dart';
 
 class Register extends StatefulWidget {
 
@@ -16,6 +23,8 @@ class _RegisterState extends State<Register> {
   final TextEditingController _passwordconfirmcontroller = TextEditingController();
   final TextEditingController _phoneconfirmcontroller = TextEditingController();
   final TextEditingController _imagecontroller = TextEditingController();
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -59,21 +68,21 @@ class _RegisterState extends State<Register> {
                   ),
                   CustomTextField(
                     data: Icons.camera_alt_outlined,
-                    controller: _namecontroller,
+                    controller: _imagecontroller,
                     hintText: 'Photo',
                     isObscure: false,
                   ),
                   CustomTextField(
                     data: Icons.lock,
-                    controller: _namecontroller,
+                    controller: _passwordcontroller,
                     hintText: 'Mot de passe',
                     isObscure: true,
                   ),
                   CustomTextField(
                     data: Icons.lock,
-                    controller: _namecontroller,
+                    controller: _passwordconfirmcontroller,
                     hintText: 'Confirmer mot de passe',
-                    isObscure: false,
+                    isObscure: true,
                   ),
                 ],
               ),
@@ -82,7 +91,7 @@ class _RegisterState extends State<Register> {
             Container(width: MediaQuery.of(context).size.width*0.5,
               child: ElevatedButton(
                 onPressed: (){
-
+                  _register();
                 },
                 child: Text("S'inscrire", style: TextStyle(color: Colors.white),),
               ),
@@ -93,4 +102,41 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
+
+  void saveUserData(){
+    Map<String, dynamic> userData = {
+      'userName': _namecontroller.text.trim(),
+      'uId': userId,
+      'userNumber': _phoneconfirmcontroller.text.trim(),
+      'imgPro': _imagecontroller.text.trim(),
+      'time': DateTime.now(),
+    };
+    FirebaseFirestore.instance.collection('users').doc(userId).set(userData);
+  }
+
+  void _register() async{
+    User currentUser;
+    await _auth.createUserWithEmailAndPassword(email: _emailcontroller.text.trim(),
+        password: _passwordcontroller.text.trim())
+        .then((auth){
+      currentUser = auth.user;
+      userId = currentUser.uid;
+      userEmail = currentUser.email;
+      getUserName = _namecontroller.text.trim();
+
+      saveUserData();
+    }).catchError((error){
+      Navigator.pop(context);
+      showDialog(context: context, builder: (con){
+        return ErrorDialog(
+          message: error.message.toString(),
+        );
+      });
+    });
+    if(currentUser != null){
+      Route newRoute = MaterialPageRoute(builder: (context) => HomeScreen());
+      Navigator.pushReplacement(context, newRoute);
+    }
+  }
+
 }
