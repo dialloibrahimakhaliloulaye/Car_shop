@@ -51,6 +51,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SizedBox(height: 5.0,),
                 TextField(
+                  decoration: InputDecoration(hintText: "Prix de la voiture"),
+                  onChanged: (value){
+                    carPrice=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+                TextField(
+                  decoration: InputDecoration(hintText: "Marque/Model de la voiture"),
+                  onChanged: (value){
+                    carModel=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+                TextField(
                   decoration: InputDecoration(hintText: "Couler de la voiture"),
                   onChanged: (value){
                     carColor=value;
@@ -115,6 +129,24 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         }
     );
+  }
+
+  getMyData(){
+    FirebaseFirestore.instance.collection('users').doc(userId).get().then((results){
+      setState(() {
+        userImageUrl = results.data()['imgPro'];
+        getUserName = results.data()['userName'];
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    userId = FirebaseAuth.instance.currentUser.uid;
+    userEmail = FirebaseAuth.instance.currentUser.email;
+    getMyData();
   }
 
   @override
