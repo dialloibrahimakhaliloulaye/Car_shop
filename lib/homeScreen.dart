@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:icar/functions.dart';
+import 'package:icar/globalVar.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -8,6 +12,111 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String userName;
+  String userNumber;
+  String carPrice;
+  String carModel;
+  String carColor;
+  String description;
+  String urlImage;
+  String carLocation;
+  QuerySnapshot cars;
+
+  CarMethods carObj = CarMethods();
+
+  Future<bool> ShowDialogForAddingData() async{
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text("Ajouter Une annonce", style: TextStyle(fontFamily: "Bebas", fontSize: 24, letterSpacing: 2.0),),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                TextField(
+                  decoration: InputDecoration(hintText: "Votre prénom et nom"),
+                  onChanged: (value){
+                    userName=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+                TextField(
+                  decoration: InputDecoration(hintText: "Votre numéro téléphone"),
+                  onChanged: (value){
+                    userNumber=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+                TextField(
+                  decoration: InputDecoration(hintText: "Couler de la voiture"),
+                  onChanged: (value){
+                    carColor=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+                TextField(
+                  decoration: InputDecoration(hintText: "Adresse"),
+                  onChanged: (value){
+                    carLocation=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+                TextField(
+                  decoration: InputDecoration(hintText: "description de la voiture"),
+                  onChanged: (value){
+                    description=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+                TextField(
+                  decoration: InputDecoration(hintText: "Image de la voiture"),
+                  onChanged: (value){
+                    urlImage=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+              ],
+            ),
+            actions: [
+              ElevatedButton(
+                child: Text("Annuler"),
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+              ),
+              ElevatedButton(
+                child: Text("Ajouter"),
+                onPressed: (){
+                  Map<String, dynamic> carData = {
+                    'userNama': userName,
+                    'uId': userId,
+                    'userNumber': userNumber,
+                    'carPrice': carPrice,
+                    'carModel': carModel,
+                    'carColor': carColor,
+                    'carLocation': carLocation,
+                    'description': description,
+                    'urlImage': urlImage,
+                    'imgPro': userImageUrl,
+                    'time': DateTime.now(),
+                  };
+                  carObj.addData(carData).then((value){
+                    print("Annonce ajoutée avec succès");
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                  }).catchError((e){
+                    print(e);
+                  });
+                },
+              )
+            ],
+          );
+        }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
         tooltip: "Ajouter l'annonce",
         child: Icon(Icons.add),
         onPressed: (){
-
+          ShowDialogForAddingData();
         },
       ),
     );
