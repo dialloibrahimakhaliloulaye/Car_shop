@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:icar/functions.dart';
 import 'package:icar/globalVar.dart';
+import 'package:timeago/timeago.dart' as tAgo;
 
 class HomeScreen extends StatefulWidget {
 
@@ -146,11 +147,194 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     userId = FirebaseAuth.instance.currentUser.uid;
     userEmail = FirebaseAuth.instance.currentUser.email;
+
+    carObj.getData().then((results){
+      setState(() {
+        cars = results;
+      });
+    });
+
     getMyData();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    double _screenWidth = MediaQuery.of(context).size.width,
+           _screenHeight = MediaQuery.of(context).size.height;
+
+    Widget showCarsList(){
+      if(cars != null){
+        return ListView.builder(
+          itemCount: cars.docs.length,
+          padding: EdgeInsets.all(8.0),
+          itemBuilder: (context, i){
+            return Card(
+              clipBehavior: Clip.antiAlias,
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: GestureDetector(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: NetworkImage((cars.docs[i].data() as Map)['imgPro'],),
+                            fit: BoxFit.fill
+                          )
+                        ),
+                      ),
+                    ),
+                    title: GestureDetector(
+                      onTap: (){
+
+                      },
+                      child: Text((cars.docs[i].data() as Map)['userNama']?? "-"),
+                    ),
+                    subtitle: GestureDetector(
+                      onTap: (){
+
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            (cars.docs[i].data() as Map)['carLocation']?? "-",
+                            style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                          ),
+                          SizedBox(width: 4.0,),
+                          Icon(Icons.location_pin, color: Colors.grey,)
+                        ],
+                      ),
+                    ),
+                    trailing: (cars.docs[i].data() as Map)['uId'] == userId ?
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          GestureDetector(
+                            onTap: (){
+
+                            },
+                            child: Icon(Icons.edit_outlined,),
+                          ),
+                          SizedBox(width: 20,),
+                          GestureDetector(
+                            onTap: (){
+
+                            },
+                            child: Icon(Icons.delete_forever_sharp,),
+                          ),
+                        ],
+                      )
+                    : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [],
+                    )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Image.network((cars.docs[i].data() as Map)['urlImage']?? "-", fit: BoxFit.fill,),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      (cars.docs[i].data() as Map)['carPrice']?? "-" +' FCFA',
+                      style: TextStyle(fontFamily: 'Bebas', letterSpacing: 2.0, fontSize: 24),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.directions_car),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Align(
+                                child: Text((cars.docs[i].data() as Map)['carModel']?? "-"),
+                                alignment: Alignment.topLeft,
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.watch_later_outlined),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Align(
+                                  child: Text(tAgo.format(((cars.docs[i].data() as Map)['time']?? "-").toDate())),
+                                alignment: Alignment.topLeft,
+                              ),
+
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10.0,),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.brush_outlined),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Align(
+                                child: Text((cars.docs[i].data() as Map)['carColor']?? "-"),
+                                alignment: Alignment.topLeft,
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.phone_android),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Align(
+                                child: Text((cars.docs[i].data() as Map)['userNumber']?? "-"),
+                                alignment: Alignment.topRight,
+                              ),
+
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10.0,),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0, right: 15.0),
+                    child: Text(
+                      (cars.docs[i].data() as Map)['description']?? "-",
+                        textAlign: TextAlign.justify,
+                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                    ),
+                  ),
+                  SizedBox(height: 10.0,),
+                ],
+              ),
+            );
+          },
+        );
+      }
+      else{
+        return Text("En chargement");
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -206,7 +390,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Center(
         child: Container(
-
+          width: _screenWidth * 0.8,
+          child: showCarsList(),
         ),
       ),
       floatingActionButton: FloatingActionButton(

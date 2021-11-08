@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:icar/splashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future <void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
