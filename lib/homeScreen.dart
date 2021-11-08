@@ -360,7 +360,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
                     child: Text(
-                      (cars.docs[i].data() as Map)['carPrice']?? "-" +'FCFA',
+                      (cars.docs[i].data() as Map)['carPrice'] +' FCFA',
                       style: TextStyle(fontFamily: 'Bebas', letterSpacing: 2.0, fontSize: 24),
                     ),
                   ),
