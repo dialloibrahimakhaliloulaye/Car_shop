@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:icar/authenticationScreen.dart';
 import 'package:icar/functions.dart';
 import 'package:icar/globalVar.dart';
 import 'package:icar/profileScreen.dart';
@@ -369,7 +370,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           TextButton(
               onPressed: (){
-
+                auth.signOut().then((_){
+                  Route newRoute = MaterialPageRoute(builder: (_) => AuthenticationScreen());
+                  Navigator.pushReplacement(context, newRoute);
+                });
               },
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
