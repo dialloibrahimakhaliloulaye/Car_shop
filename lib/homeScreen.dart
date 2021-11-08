@@ -213,6 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ElevatedButton(
                 child: Text("Modifier"),
                 onPressed: (){
+                  Navigator.pop(context);
                   Map<String, dynamic> carData = {
                     'userNama': userName,
                     'userNumber': userNumber,
@@ -225,6 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   };
                   carObj.updataData(selectedDoc, carData).then((value){
                     print("Annonce Modifiée avec succès");
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext c) => HomeScreen()));
                   }).catchError((e){
                     print(e);
                   });
@@ -331,7 +333,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(width: 20,),
                           GestureDetector(
                             onTap: (){
-
+                              if((cars.docs[i].data() as Map)['uId'] == userId){
+                                carObj.deleteData(cars.docs[i].id);
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext c) => HomeScreen()));
+                              }
                             },
                             child: Icon(Icons.delete_forever_sharp,),
                           ),
