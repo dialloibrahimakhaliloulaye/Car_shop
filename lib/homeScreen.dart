@@ -135,6 +135,107 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Future<bool> showDialogForUpdateData(selectedDoc) async{
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text("Modifier cette annonce", style: TextStyle(fontFamily: "Bebas", fontSize: 24, letterSpacing: 2.0),),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                TextField(
+                  decoration: InputDecoration(hintText: "Votre prénom et nom"),
+                  onChanged: (value){
+                    userName=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+                TextField(
+                  decoration: InputDecoration(hintText: "Votre numéro téléphone"),
+                  onChanged: (value){
+                    userNumber=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+                TextField(
+                  decoration: InputDecoration(hintText: "Prix de la voiture"),
+                  onChanged: (value){
+                    carPrice=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+                TextField(
+                  decoration: InputDecoration(hintText: "Marque/Model de la voiture"),
+                  onChanged: (value){
+                    carModel=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+                TextField(
+                  decoration: InputDecoration(hintText: "Couler de la voiture"),
+                  onChanged: (value){
+                    carColor=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+                TextField(
+                  decoration: InputDecoration(hintText: "Adresse"),
+                  onChanged: (value){
+                    carLocation=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+                TextField(
+                  decoration: InputDecoration(hintText: "description de la voiture"),
+                  onChanged: (value){
+                    description=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+                TextField(
+                  decoration: InputDecoration(hintText: "Image de la voiture"),
+                  onChanged: (value){
+                    urlImage=value;
+                  },
+                ),
+                SizedBox(height: 5.0,),
+              ],
+            ),
+            actions: [
+              ElevatedButton(
+                child: Text("Annuler"),
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+              ),
+              ElevatedButton(
+                child: Text("Modifier"),
+                onPressed: (){
+                  Map<String, dynamic> carData = {
+                    'userNama': userName,
+                    'userNumber': userNumber,
+                    'carPrice': carPrice,
+                    'carModel': carModel,
+                    'carColor': carColor,
+                    'carLocation': carLocation,
+                    'description': description,
+                    'urlImage': urlImage,
+                  };
+                  carObj.updataData(selectedDoc, carData).then((value){
+                    print("Annonce Modifiée avec succès");
+                  }).catchError((e){
+                    print(e);
+                  });
+                },
+              )
+            ],
+          );
+        }
+    );
+  }
+
   getMyData(){
     FirebaseFirestore.instance.collection('users').doc(userId).get().then((results){
       setState(() {
@@ -221,7 +322,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           GestureDetector(
                             onTap: (){
-
+                              if((cars.docs[i].data() as Map)['uId'] == userId){
+                                showDialogForUpdateData(cars.docs[i].id);
+                              }
                             },
                             child: Icon(Icons.edit_outlined,),
                           ),
