@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:icar/functions.dart';
 import 'package:icar/globalVar.dart';
+import 'package:icar/profileScreen.dart';
+import 'package:icar/searchCar.dart';
 import 'package:timeago/timeago.dart' as tAgo;
 
 class HomeScreen extends StatefulWidget {
@@ -340,13 +342,15 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: IconButton(
           icon: Icon(Icons.refresh, color: Colors.white,),
           onPressed: (){
-
+            Route newRoute = MaterialPageRoute(builder: (_) => HomeScreen());
+            Navigator.pushReplacement(context, newRoute);
           },
         ),
         actions: <Widget>[
           TextButton(
               onPressed: (){
-
+                Route newRoute = MaterialPageRoute(builder: (_) => ProfileScreen());
+                Navigator.pushReplacement(context, newRoute);
               },
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -355,7 +359,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           TextButton(
               onPressed: (){
-
+                Route newRoute = MaterialPageRoute(builder: (_) => SearchCar());
+                Navigator.pushReplacement(context, newRoute);
               },
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
