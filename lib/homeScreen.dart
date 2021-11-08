@@ -282,7 +282,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ListTile(
                     leading: GestureDetector(
                       onTap: (){
-
+                        Route newRoute = MaterialPageRoute(builder: (_) => ProfileScreen(
+                          sellerId: (cars.docs[i].data() as Map)['uId'],
+                        ));
+                        Navigator.pushReplacement(context, newRoute);
                       },
                       child: Container(
                         width: 60,
@@ -298,7 +301,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     title: GestureDetector(
                       onTap: (){
-
+                        Route newRoute = MaterialPageRoute(builder: (_) => ProfileScreen(
+                          sellerId: (cars.docs[i].data() as Map)['uId'],
+                        ));
+                        Navigator.pushReplacement(context, newRoute);
                       },
                       child: Text((cars.docs[i].data() as Map)['userNama']?? "-"),
                     ),
@@ -354,7 +360,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
                     child: Text(
-                      (cars.docs[i].data() as Map)['carPrice']?? "-" +' FCFA',
+                      (cars.docs[i].data() as Map)['carPrice']?? "-" +'FCFA',
                       style: TextStyle(fontFamily: 'Bebas', letterSpacing: 2.0, fontSize: 24),
                     ),
                   ),
