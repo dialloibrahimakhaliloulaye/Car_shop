@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "553399081726",
+    "project_id": "car-shop-89186",
+    "storage_bucket": "car-shop-89186.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553399081726:android:c7fac229ac8d2792fb23af",
+        "android_client_info": {
+          "package_name": "com.yeyamG.car_shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "553399081726-6bb347dl3f2guvtsam42sdui6gu8tikr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAS3HDftW9TCPYg_dMJWN8bn-AO5DBR3_4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "553399081726-6bb347dl3f2guvtsam42sdui6gu8tikr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
