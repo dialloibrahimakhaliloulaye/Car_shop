@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:icar/authenticationScreen.dart';
-import 'package:icar/functions.dart';
-import 'package:icar/globalVar.dart';
-import 'package:icar/profileScreen.dart';
-import 'package:icar/searchCar.dart';
+import 'package:car_shop/authenticationScreen.dart';
+import 'package:car_shop/functions.dart';
+import 'package:car_shop/globalVar.dart';
+import 'package:car_shop/profileScreen.dart';
+import 'package:car_shop/searchCar.dart';
 import 'package:timeago/timeago.dart' as tAgo;
 
 class HomeScreen extends StatefulWidget {

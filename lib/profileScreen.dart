@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:icar/functions.dart';
-import 'package:icar/globalVar.dart';
-import 'package:icar/homeScreen.dart';
+import 'package:car_shop/functions.dart';
+import 'package:car_shop/globalVar.dart';
+import 'package:car_shop/homeScreen.dart';
 import 'package:timeago/timeago.dart' as tAgo;
 
 class ProfileScreen extends StatefulWidget {

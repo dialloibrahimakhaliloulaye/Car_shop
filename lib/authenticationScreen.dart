@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:icar/login.dart';
-import 'package:icar/register.dart';
+import 'package:car_shop/login.dart';
+import 'package:car_shop/register.dart';
 
 class AuthenticationScreen extends StatefulWidget {
 

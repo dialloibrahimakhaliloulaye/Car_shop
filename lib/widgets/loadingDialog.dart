@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:icar/widgets/loadingWidget.dart';
+import 'package:car_shop/widgets/loadingWidget.dart';
 
 class LoadingDialog extends StatelessWidget {
 

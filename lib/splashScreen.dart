@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:icar/authenticationScreen.dart';
-import 'package:icar/homeScreen.dart';
+import 'package:car_shop/authenticationScreen.dart';
+import 'package:car_shop/homeScreen.dart';
 
 class SplashScreen extends StatefulWidget {
 

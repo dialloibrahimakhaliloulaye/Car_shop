@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:icar/authenticationScreen.dart';
+import 'package:car_shop/authenticationScreen.dart';
 
 class ErrorDialog extends StatelessWidget {
   final String message;

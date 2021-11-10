@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:icar/homeScreen.dart';
-import 'package:icar/profileScreen.dart';
+import 'package:car_shop/homeScreen.dart';
+import 'package:car_shop/profileScreen.dart';
 import 'package:timeago/timeago.dart' as tAgo;
 
 class SearchCar extends StatefulWidget {
